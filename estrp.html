@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ESTRP CHIRAQ — STORE</title>
+  <meta name="description" content="ESTRP CHIRAQ — FiveM server donations, tiers, vehicles and extras." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1:#050006;
+      --bg-2:#120012;
+      --accent:#ff1ad9;
+      --accent-2:#ff4bd9;
+      --muted: rgba(255,255,255,0.82);
+      --card:#0b0010;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:var(--muted);-webkit-font-smoothing:antialiased}
+
+    /* NAV */
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 36px;position:sticky;top:0;background:linear-gradient(180deg,rgba(0,0,0,0.35),transparent);backdrop-filter: blur(6px);z-index:40;border-bottom:1px solid rgba(255,26,217,0.06)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:44px;height:44px;border-radius:8px;background-image:url('https://i.imgur.com/jppevtn.jpeg');background-size:cover;box-shadow:0 6px 24px rgba(255,26,217,0.06);border:2px solid rgba(255,26,217,0.14)}
+    .brand h1{font-size:18px;color:var(--accent);margin:0}
+    .nav-links{display:flex;gap:20px;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:600}
+    .nav-links a.cta{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:8px 14px;border-radius:8px;color:#120012}
+
+    /* HERO */
+    .hero{min-height:62vh;display:grid;grid-template-columns:1fr 540px;gap:40px;align-items:center;padding:60px 6%;position:relative}
+    .hero::before{content:'';position:absolute;inset:0;background-image:url('https://i.imgur.com/jppevtn.jpeg');background-size:cover;background-position:center;opacity:0.12;filter:grayscale(40%) blur(1px)}
+    .hero-left{position:relative;z-index:2}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,26,217,0.08);color:var(--accent);font-weight:700;margin-bottom:18px}
+    h2{font-size:38px;color:white;margin:0 0 12px 0;line-height:1.02}
+    p.lead{color:rgba(255,255,255,0.85);margin-bottom:20px}
+    .buttons{display:flex;gap:12px}
+    .btn{padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#120012}
+    .btn-ghost{border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* RIGHT PANEL - summary */
+    .summary{background:linear-gradient(180deg,rgba(255,26,217,0.03),transparent);border:1px solid rgba(255,26,217,0.06);padding:20px;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.6);position:relative;z-index:3}
+    .summary h3{margin:0 0 8px 0;color:var(--accent)}
+    .summary p{margin:0 0 12px 0;opacity:0.9}
+    .quick-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .quick-list div{background:rgba(0,0,0,0.25);padding:8px;border-radius:8px;font-size:14px}
+
+    /* MAIN PRODUCTS */
+    main{padding:40px 6% 80px 6%;position:relative}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .product-card{background:var(--card);border:1px solid rgba(255,26,217,0.08);padding:18px;border-radius:14px;transition:0.25s ease, transform 0.25s ease;box-shadow:0 0 0 rgba(255,26,217,0);}
+    .product-card h4{color:var(--accent);margin:0 0 8px 0}
+    .product-card p{margin:0 0 10px 0;color:rgba(255,255,255,0.85)}
+    ul.meta{list-style:none;padding-left:0;margin:0}
+    ul.meta li{padding:6px 0;border-top:1px dashed rgba(255,255,255,0.02);font-size:14px}
+
+    .product-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 10px 34px rgba(255,26,217,0.25);background:#120016;}
+
+/* PRICES TABLE (bigger) */
+    .prices{margin-top:28px;display:flex;flex-direction:column;gap:14px}
+    .price-row{display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:10px;background:linear-gradient(180deg,rgba(255,26,217,0.02),transparent);border:1px solid rgba(255,26,217,0.03)}
+    .price-row .left{font-weight:700}
+    .price-row .right{font-weight:800;color:var(--accent)}
+
+    /* DISCLAIMER */
+    .disclaimer{margin-top:22px;padding:14px;background:rgba(255,26,217,0.03);border-left:4px solid var(--accent);border-radius:8px}
+
+    /* FOOTER */
+    footer{padding:36px 6%;border-top:1px solid rgba(255,26,217,0.04);margin-top:60px}
+    .footer-grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between}
+
+    /* POPUP */
+    .popup{position:fixed;left:50%;transform:translateX(-50%);bottom:26px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#120012;padding:12px 18px;border-radius:12px;box-shadow:0 8px 40px rgba(255,26,217,0.18);display:flex;gap:12px;align-items:center;z-index:60}
+
+    /* RESPONSIVE */
+    @media (max-width:900px){.hero{grid-template-columns:1fr;padding:48px 6%}.summary{order:2}.hero-left{order:1}.nav{padding:14px 20px}.brand h1{font-size:16px}}
+    @media (max-width:480px){h2{font-size:26px}}
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="brand">
+      <div class="brand-logo" aria-hidden></div>
+      <div>
+        <h1>ESTRP CHIRAQ</h1>
+        <div style="font-size:12px;opacity:.7">Official Donations & Info</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#products">Products</a>
+      <a href="#business">Business</a>
+      <a href="#vehicles">Vehicles</a>
+      <a class="cta" href="https://cfx.re/join/yg5q7j" target="_blank" rel="noreferrer">Join Server</a>
+    </nav>
+    <a class="btn btn-primary" href="https://discord.gg/qxsCWPqStF" target="_blank" rel="noreferrer">Join Discord</a>
+</header>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-left">
+      <span class="eyebrow">*PRICES ARE NOT GOING TO STAY THE SAME*</span>
+      <h2 id="hero-title">ESTRP CHIRAQ — Build your Gang, Own the Block</h2>
+      <p class="lead">Custom gangs, businesses, vehicles and exclusives. All donations go directly into the server.</p>
+      <div class="buttons">
+        <a class="btn btn-primary" href="https://cfx.re/join/yg5q7j" target="_blank" rel="noreferrer">Join Server</a>
+        <a class="btn btn-ghost" href="#products">See Donation Tiers</a>
+      </div>
+    </div>
+
+    <aside class="summary" aria-label="Quick summary">
+      <h3>Quick Order Summary</h3>
+      <p>Pick a tier below and open a ticket in Discord with your files for custom MLOs, weapons or clothing.</p>
+      <div class="quick-list" role="list">
+        <div>Fast delivery (depending on complexity)</div>
+        <div>All donations final</div>
+        <div>Custom work requires files</div>
+        <div>Tickets: Discord channel</div>
+      </div>
+    </aside>
+  </section>
+
+  <main>
+    <section id="products">
+      <h2 style="color:var(--accent);margin-bottom:12px">$ DONATION INFO $</h2>
+      <p style="opacity:.9;margin-bottom:18px;">*EACH FREE GANG NEEDS 4 PEOPLE AT THE LEAST*</p>
+
+      <div class="grid">
+        <!-- Gang Tier I -->
+        <div class="product-card">
+          <h4>Gang Tier I — FREE UNTIL FURTHER NOTICE</h4>
+          <p><strong>Includes</strong></p>
+          <ul class="meta">
+            <li>Gang Block</li>
+            <li>Custom Gang Flag</li>
+          </ul>
+        </div>
+
+        <!-- Gang Tier II -->
+        <div class="product-card">
+          <h4>Gang Tier II — $10</h4>
+          <p><strong>Includes</strong></p>
+          <ul class="meta">
+            <li>Custom Gang Block (MLO)</li>
+            <li>Custom Gang Flag</li>
+            <li>Custom Gang Chain</li>
+          </ul>
+        </div>
+
+        <!-- Gang Tier III -->
+        <div class="product-card">
+          <h4>Gang Tier III — $20</h4>
+          <p><strong>Includes</strong></p>
+          <ul class="meta">
+            <li>Custom Gang Block</li>
+            <li>Custom Gang Chain</li>
+            <li>Custom Gang Flag</li>
+            <li>Gang Headquarters (MLO)</li>
+          </ul>
+        </div>
+
+        <!-- Gang Tier IV -->
+        <div class="product-card">
+          <h4>Gang Tier IV — $30</h4>
+          <p><strong>Includes</strong></p>
+          <ul class="meta">
+            <li>Custom Gang Block</li>
+            <li>Custom Gang Flag</li>
+            <li>Custom Gang Chain</li>
+            <li>Custom Gang Headquarters</li>
+            <li>Custom Gang Drug</li>
+          </ul>
+        </div>
+
+        <!-- Gang Tier V -->
+        <div class="product-card">
+          <h4>Gang Tier V — $40</h4>
+          <p><strong>Includes</strong></p>
+          <ul class="meta">
+            <li>Custom Gang Block</li>
+            <li>Custom Gang Flag</li>
+            <li>Custom Gang Chain</li>
+            <li>Custom Gang Headquarters</li>
+            <li>Custom Gang Drug</li>
+            <li>Custom Gang Weapon</li>
+          </ul>
+        </div>
+
+        <!-- Extra Starter Pack -->
+        <div class="product-card">
+          <h4>Extra Starter Pack — $5</h4>
+          <ul class="meta">
+            <li>50 Diamonds</li>
+            <li>$100,000 Clean</li>
+            <li>3 Gun Store Weapons</li>
+            <li>500 Ammo</li>
+            <li>150 Pills</li>
+          </ul>
+        </div>
+
+        <!-- Gang Add-On Pack -->
+        <div class="product-card">
+          <h4>Gang Add-On Pack — $10 <span style="font-weight:600;font-size:13px;color:rgba(255,255,255,0.8)"> (or free with Tier II+)</span></h4>
+          <ul class="meta">
+            <li>175 Diamonds</li>
+            <li>10 Semi - Pistols</li>
+            <li>3000 Ammo</li>
+            <li>$500,000 Clean</li>
+            <li>1000 E.S.T RP Pills</li>
+          </ul>
+        </div>
+
+        <!-- Business Tiers header card -->
+        <div class="product-card">
+          <h4>Business Tier I — $25</h4>
+          <ul class="meta">
+            <li>$500,000 Clean</li>
+            <li>Regular GTA Building (eg: Burger Shot)</li>
+            <li>25 Items to sell</li>
+          </ul>
+        </div>
+
+        <div class="product-card">
+          <h4>Business Tier II — $35</h4>
+          <ul class="meta">
+            <li>$1,000,000 Clean</li>
+            <li>Custom MLO</li>
+            <li>50 Items</li>
+          </ul>
+        </div>
+
+        <div class="product-card">
+          <h4>Business Tier III — $50</h4>
+          <ul class="meta">
+            <li>$2,000,000 Clean</li>
+            <li>Custom MLO</li>
+            <li>100 Items</li>
+            <li>Personal Locker</li>
+          </ul>
+        </div>
+
+        <div class="product-card">
+          <h4>Vehicles</h4>
+          <ul class="meta">
+            <li>Donator Vehicle — $15</li>
+            <li>1of1 Vehicle — $25</li>
+          </ul>
+        </div>
+
+        <div class="product-card">
+          <h4>Extras</h4>
+          <ul class="meta">
+            <li>All Extra Gang Roles — $5 (first 4 gang roles are free)</li>
+            <li>Custom Gun — $15</li>
+            <li>Change Gang Brand — $5</li>
+            <li>Make Vehicle Slider — $15</li>
+            <li>Custom Chain — $15</li>
+            <li>Custom Clothing — $15</li>
+            <li>Custom MLO — $35</li>
+            <li>Gang Gun Drop — $20 (10 guns dropped to your gang leader monthly)</li>
+            <li>Custom Drug — $15</li>
+            <li>Custom Drug Boosts — $5 each (Armor, Health, Speed)</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="disclaimer">
+        <strong>DISCLAIMER:</strong> ALL PURCHASES ARE FINAL. ANYTHING THAT SAYS <em>"CUSTOM"</em> YOU MUST PROVIDE THE FILES OR CHOOSE SOMETHING ALREADY IN-GAME THAT IS NOT TAKEN. ALL DONATIONS WILL BE PUT DIRECTLY INTO THE SERVER. ANY AND ALL DONATIONS ARE MUCH APPRECIATED AND WILL HELP THE COMMUNITY.
+      </div>
+
+      <div style="margin-top:18px;">
+        <div class="price-row" style="margin-bottom:8px">
+          <div class="left">Ticket</div>
+          <div class="right"><a href="https://discord.com/channels/1435398665450819647/1435398667157901343" target="_blank" style="color:var(--accent);text-decoration:none">🎫 Open Discord Ticket</a></div>
+        </div>
+
+        <div class="price-row">
+          <div class="left">Join Link</div>
+          <div class="right"><a href="https://cfx.re/join/yg5q7j" target="_blank" style="color:var(--accent);text-decoration:none">cfx.re/join/yg5q7j</a></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Optional: compact price list -->
+    <section id="business" style="margin-top:36px">
+      <h3 style="color:var(--accent);margin-bottom:12px">Business & Extras (Compact)</h3>
+      <div class="grid">
+        <div class="product-card"><h4>Business Tier I — $25</h4><p>$500,000 Clean · Regular building · 25 items</p></div>
+        <div class="product-card"><h4>Business Tier II — $35</h4><p>$1,000,000 Clean · Custom MLO · 50 items</p></div>
+        <div class="product-card"><h4>Business Tier III — $50</h4><p>$2,000,000 Clean · Custom MLO · 100 items · Locker</p></div>
+      </div>
+    </section>
+
+    <section id="vehicles" style="margin-top:28px">
+      <h3 style="color:var(--accent);margin-bottom:12px">Vehicles</h3>
+      <div class="grid">
+        <div class="product-card"><h4>Donator Vehicle</h4><p>Price: $15</p></div>
+        <div class="product-card"><h4>1of1 Vehicle</h4><p>Price: $25</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <strong>ESTRP CHIRAQ</strong>
+        <div style="opacity:.72;margin-top:6px">Official donation page — thank you for supporting the server.</div>
+      </div>
+      <div style="text-align:right">
+        <div style="opacity:.8">Join: <a href="https://cfx.re/join/yg5q7j" target="_blank" style="color:var(--accent);text-decoration:none">cfx.re/join/yg5q7j</a></div>
+        <div style="opacity:.8;margin-top:6px">Ticket: <a href="https://discord.com/channels/1435398665450819647/1435398667157901343" target="_blank" style="color:var(--accent);text-decoration:none">Discord</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Timed popup (5s) -->
+  <div id="popup" class="popup" style="display:none">
+    <div style="font-weight:800">Ready to join?</div>
+    <a href="https://cfx.re/join/yg5q7j" target="_blank" style="font-weight:900;color:#120012;text-decoration:none">Jump In — cfx.re/join/yg5q7j</a>
+  </div>
+
+  <script>
+    // show popup after 5s
+    setTimeout(()=>{document.getElementById('popup').style.display='flex'},5000);
+
+    // small accessibility: focus links when tabbed
+    document.querySelectorAll('a').forEach(a=>a.addEventListener('focus',()=>a.style.outline='3px solid rgba(255,26,217,0.2)'));
+  </script>
+</body>
+</html>
